@@ -22,7 +22,7 @@ exports.verifyIdentifier = (req, res) => {
     }
 
     // Utiliser les fichiers JSON générés
-    const jsonFiles = files.filter(file => file.startsWith('part_') && file.endsWith('.json'));
+    const jsonFiles = files.filter(file => file.startsWith('Extraction_Correspondance_MSSante_filtered') && file.endsWith('.json'));
 
     for (const file of jsonFiles) {
       if (found) break; // Arrêter la recherche si l'identifiant est trouvé
