@@ -2,9 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const csv = require('csv-parser');
 
-const maxRetries = 3; // Nombre maximum de réessais
-
-exports.convertCsvToJson = async (csvFile, retryCount = 0) => {
+exports.convertCsvToJson = async (csvFile) => {
   const csvPath = path.join(__dirname, `../data/${csvFile}`);
   const jsonFilePath = csvPath.replace('.csv', '.json');
   const timeoutDuration = 600000; // Délai d'attente de 10 minutes
@@ -32,14 +30,7 @@ exports.convertCsvToJson = async (csvFile, retryCount = 0) => {
         })
         .on('error', (error) => {
           console.error('Erreur lors de la conversion CSV en JSON :', error);
-
-          if (error.code === 'ECONNRESET' && retryCount < maxRetries) {
-            console.warn(`Erreur ECONNRESET rencontrée. Nouvelle tentative ${retryCount + 1}/${maxRetries}...`);
-            // Réessayer la conversion après une courte pause
-            setTimeout(() => exports.convertCsvToJson(csvFile, retryCount + 1).then(resolve).catch(reject), 1000);
-          } else {
-            reject(error);
-          }
+          reject(error);
         });
     });
 
