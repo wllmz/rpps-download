@@ -3,11 +3,11 @@ const path = require('path');
 
 // Fonction pour vérifier si un identifiant RPPS ou ADELI est valide en lisant directement les fichiers JSON divisés
 exports.verifyIdentifier = (req, res) => {
-  const { identifier } = req.body;
+  const { identifier, email } = req.body;
   const dataDir = path.join(__dirname, '../data');
 
-  if (!identifier) {
-    return res.status(400).json({ error: 'Identifiant requis' });
+  if (!identifier || !email) {
+    return res.status(400).json({ error: 'Identifiant et email requis' });
   }
 
   const rppsRegex = /^\d{11}$/; // Regex pour les numéros RPPS à 11 chiffres
@@ -29,16 +29,16 @@ exports.verifyIdentifier = (req, res) => {
 
       const filePath = path.join(dataDir, file);
       const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-      const entry = data.find(entry => entry.Number === identifier);
+      const entry = data.find(entry => entry.Number === identifier && entry.Email === email);
 
       if (entry) {
         found = true;
-        return res.json({ message: `Identifiant ${entry.Type} valide` });
+        return res.json({ message: `Identifiant ${entry.Type} valide avec email correspondant`, email: entry.Email });
       }
     }
 
     if (!found) {
-      res.json({ message: 'Identifiant non valide' });
+      res.json({ message: 'Identifiant ou email non valide' });
     }
   });
 };

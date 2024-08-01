@@ -20,22 +20,24 @@ exports.splitCsvFile = async () => {
         // Définir les en-têtes
         headers = values;
         // Écrire les en-têtes dans le fichier CSV filtré
-        writeStream.write('Identification nationale PP|Identification Structure\n');
+        writeStream.write('Identification nationale PP|Identification Structure|Adresse BAL\n');
       } else {
-        // Filtrer les valeurs pour ne conserver que RPPS et ADELI
+        // Filtrer les valeurs pour ne conserver que RPPS, ADELI, et email
         const rppsIndex = headers.indexOf('Identification nationale PP');
         const adeliIndex = headers.indexOf('Identification Structure');
+        const emailIndex = headers.indexOf('Adresse BAL');
 
-        if (rppsIndex === -1 || adeliIndex === -1) {
-          console.error('Les colonnes RPPS et ADELI ne sont pas présentes dans le CSV');
+        if (rppsIndex === -1 || adeliIndex === -1 || emailIndex === -1) {
+          console.error('Les colonnes RPPS, ADELI, ou Adresse BAL ne sont pas présentes dans le CSV');
           return;
         }
 
         const rpps = values[rppsIndex];
         const adeli = values[adeliIndex];
+        const email = values[emailIndex];
 
         // Écrire les valeurs filtrées dans le fichier CSV
-        writeStream.write(`${rpps}|${adeli}\n`);
+        writeStream.write(`${rpps}|${adeli}|${email}\n`);
       }
     }
 

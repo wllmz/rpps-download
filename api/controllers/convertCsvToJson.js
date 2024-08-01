@@ -15,11 +15,12 @@ exports.convertCsvToJson = async (csvFile) => {
       readStream
         .pipe(csv({ separator: '|' }))
         .on('data', (data) => {
-          // Ajouter les données filtrées (RPPS ou ADELI) au tableau des résultats
+          // Ajouter les données filtrées (RPPS, ADELI, et email) au tableau des résultats
           if (data['Identification nationale PP'] || data['Identification Structure']) {
             results.push({
               Type: data['Identification nationale PP'] ? 'RPPS' : 'ADELI',
-              Number: data['Identification nationale PP'] || data['Identification Structure']
+              Number: data['Identification nationale PP'] || data['Identification Structure'],
+              Email: data['Adresse BAL']
             });
           }
         })
