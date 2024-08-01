@@ -33,12 +33,12 @@ exports.verifyIdentifier = (req, res) => {
 
       if (entry) {
         found = true;
-        return res.json({ message: `Identifiant ${entry.Type} valide avec email correspondant`, email: entry.Email });
+        return res.json({ message: "true" });
       }
     }
 
     if (!found) {
-      res.json({ message: 'Identifiant ou email non valide' });
+      res.json({ message: "false" });
     }
   });
 };
