@@ -15,9 +15,7 @@ async function startServer() {
         app.use(express.json());
 
         // Middleware pour gérer les requêtes CORS
-        app.use(cors({
-            origin: ['http://localhost:3000', 'https://mylizy.fr']
-        }));
+        app.use(cors());
 
         // Route pour le message d'accueil
         app.get('/', (req, res) => {

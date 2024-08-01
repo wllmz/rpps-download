@@ -22,7 +22,7 @@ exports.handleLargeCsvFile = async (req, res) => {
     res.json({ message: 'Fichier téléchargé, filtré, converti en JSON et sauvegardé' });
   } catch (error) {
     console.error('Erreur dans handleLargeCsvFile :', error);
-    res.status(500).json({ error: 'Échec du traitement du fichier' });
+    res.status(500).json({ error: 'Échec du traitement du fichier', details: error.message });
   } finally {
     // Nettoyage des fichiers temporaires
     try {
